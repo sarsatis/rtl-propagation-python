@@ -44,10 +44,10 @@ class CreatePRAndAddLabel:
     errored_messages = []
 
     # Local
-    API_TOKEN = "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"
-    github_client = Github(API_TOKEN)
-    application_manifest_repo = "sarsatis/helm-charts"
-    default_branch = "main"
+    # API_TOKEN = ""
+    # github_client = Github(API_TOKEN)
+    # application_manifest_repo = "sarsatis/helm-charts"
+    # default_branch = "main"
 
     def __init__(self, comp_name, env):
         self.comp_name = comp_name
