@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Message</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+        .header {
+            background-color: green;
+            color: white;
+            padding: 20px;
+            text-align: left;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .header .logo {
+            flex: 0 0 auto;
+            margin-right: auto;
+        }
+        .header .title {
+            flex: 1 1 auto;
+            text-align: center;
+            margin: 0;
+        }
+        .header h1 {
+            margin: 0;
+        }
+        .logo-placeholder {
+            width: 100px;
+            height: 50px;
+            background-color: white;
+            display: inline-block;
+            margin-right: 10px;
+        }
+        .message-container {
+            text-align: center;
+            margin-top: 20%;
+        }
+        .message {
+            font-size: 24px;
+            font-weight: bold;
+        }
+        .footer {
+            position: fixed;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            background-color: #f1f1f1;
+            color: #000;
+            text-align: center;
+            padding: 10px;
+            box-shadow: 0 -1px 5px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="logo">
+            <!-- Placeholder for logo -->
+            <img src="/static/lloydslogo.png" alt="Logo" height="100">
+        </div>
+        <div class="title">
+            <h1>OCPZ RTL Propagation</h1>
+        </div>
+    </div>
+    <div class="message-container">
+        <p class="message">{{ message }}</p>
+    </div>
+    <div class="footer">
+        &copy; 2024 Your Company Name. All rights reserved.
+    </div>
+</body>
+</html>

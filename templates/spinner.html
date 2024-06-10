@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Processing...</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+        .header {
+            background-color: green;
+            color: white;
+            padding: 20px;
+            text-align: left;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .header h1 {
+            margin: 0;
+        }
+        .header .logo {
+            flex: 0 0 auto;
+            margin-right: auto;
+        }
+        .header .title {
+            flex: 1 1 auto;
+            text-align: center;
+            margin: 0;
+        }
+        .spinner {
+            border: 16px solid #f3f3f3;
+            border-top: 16px solid green;
+            border-radius: 50%;
+            width: 120px;
+            height: 120px;
+            animation: spin 2s linear infinite;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            margin: -60px 0 0 -60px;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .message {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .footer {
+            position: fixed;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            background-color: #f1f1f1;
+            color: #000;
+            text-align: center;
+            padding: 10px;
+            box-shadow: 0 -1px 5px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+    <script type="text/javascript">
+        function checkStatus() {
+            fetch("{{ url_for('check_status', task_id=task_id) }}")
+                .then(response => response.json())
+                .then(data => {
+                    if (data.redirect_url) {
+                        window.location.href = data.redirect_url;
+                    } else if (data.html_page) {
+                        window.location.href = "{{ url_for('show_message') }}?message=" + encodeURIComponent(data.message);
+                    } else if (data.message) {
+                        document.getElementById("spinner").style.display = "none";
+                        document.getElementById("message").innerText = data.message;
+                    } else {
+                        setTimeout(checkStatus, 1000); // Retry after 1 second
+                    }
+                })
+                .catch(error => console.error('Error:', error));
+        }
+        window.onload = checkStatus;
+    </script>
+</head>
+<body>
+    <div class="header">
+        <div class="logo">
+            <!-- Placeholder for logo -->
+            <img src="/static/lloydslogo.png" alt="Logo" height="100">
+        </div>
+        <div class="title">
+            <h1>OCPZ RTL Propagation</h1>
+        </div>
+    </div>
+    <div id="spinner" class="spinner"></div>
+    <p id="message" class="message"></p>
+    <div class="footer">
+        &copy; 2024 Your Company Name. All rights reserved.
+    </div>
+</body>
+</html>
