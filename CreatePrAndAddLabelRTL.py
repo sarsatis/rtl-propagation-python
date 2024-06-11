@@ -255,7 +255,7 @@ def create_pr_and_add_labels():
     task_results[task_id] = None  # Initialize task result
     Thread(target=background_task, args=(task_id, comp_name, env)).start()
 
-    return render_template('spinner.html', task_id=task_id)
+    return render_template('progress.html', task_id=task_id)
 
 
 @app.route('/check_status/<task_id>', methods=['GET'])

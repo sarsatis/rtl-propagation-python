@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Processing...</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+        .header {
+            background-color: green;
+            color: white;
+            padding: 20px;
+            text-align: left;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .header h1 {
+            margin: 0;
+        }
+        .header .logo {
+            flex: 0 0 auto;
+            margin-right: auto;
+        }
+        .header .title {
+            flex: 1 1 auto;
+            text-align: center;
+            margin: 0;
+        }
+        .circle-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 60vh;
+            position: relative;
+        }
+        .circle {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            border: 16px solid #f3f3f3;
+            border-top: 16px solid green;
+            animation: spin 2s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .progress-text {
+            position: absolute;
+            font-size: 24px;
+            color: green;
+        }
+        .message {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 24px;
+            font-weight: bold;
+        }
+        .footer {
+            position: fixed;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            background-color: #f1f1f1;
+            color: #000;
+            text-align: center;
+            padding: 10px;
+            box-shadow: 0 -1px 5px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+    <script type="text/javascript">
+        function checkStatus(task_id) {
+            fetch(`/check_status/${task_id}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.redirect_url) {
+                        window.location.href = data.redirect_url;
+                    } else if (data.html_page) {
+                        window.location.href = `/show_message?message=` + encodeURIComponent(data.message);
+                    } else if (data.message) {
+                        document.getElementById("circle").style.display = "none";
+                        document.getElementById("message").innerText = data.message;
+                    } else {
+                        setTimeout(() => checkStatus(task_id), 1000); // Retry after 1 second
+                    }
+                })
+                .catch(error => console.error('Error:', error));
+        }
+
+        function updateProgressCircle() {
+            let progressText = document.getElementById('progressText');
+            let progress = 0;
+            let interval = setInterval(function() {
+                if (progress >= 100) {
+                    clearInterval(interval);
+                } else {
+                    progress++;
+                    progressText.innerText = progress + '%';
+                }
+            }, 100); // Increment every 100 milliseconds
+        }
+
+        window.onload = function() {
+            const task_id = "{{ task_id }}";
+            updateProgressCircle();
+            checkStatus(task_id);
+        };
+    </script>
+</head>
+<body>
+    <div class="header">
+        <div class="logo">
+            <!-- Placeholder for logo -->
+            <img src="/static/lloydslogo.png" alt="Logo" height="100">
+        </div>
+        <div class="title">
+            <h1>OCPZ RTL Propagation</h1>
+        </div>
+    </div>
+    <div class="circle-container">
+        <div id="circle" class="circle"></div>
+        <div id="progressText" class="progress-text">0%</div>
+    </div>
+    <p id="message" class="message"></p>
+    <div class="footer">
+        &copy; 2024 Your Company Name. All rights reserved.
+    </div>
+</body>
+</html>
