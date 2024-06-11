@@ -207,19 +207,19 @@ class CreatePRAndAddLabel:
         app.logger.info("Added Labels to PR")
 
 
-@app.before_request
-def before_request():
-    request.start_time = time.time()
-
-
-@app.after_request
-def after_request(response):
-    end_time = time.time()
-    duration = end_time - request.start_time
-    app.logger.info(f"Start Time: " + str(request.start_time))
-    app.logger.info(f"End Time: " + str(end_time))
-    app.logger.info(f"Duration: " + str(duration))
-    return response
+# @app.before_request
+# def before_request():
+#     request.start_time = time.time()
+#
+#
+# @app.after_request
+# def after_request(response):
+#     end_time = time.time()
+#     duration = end_time - request.start_time
+#     app.logger.info(f"Start Time: " + str(request.start_time))
+#     app.logger.info(f"End Time: " + str(end_time))
+#     app.logger.info(f"Duration: " + str(duration))
+#     return response
 
 
 def background_task(task_id, comp_name, env):
